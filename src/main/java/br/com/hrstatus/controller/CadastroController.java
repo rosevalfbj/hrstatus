@@ -153,6 +153,8 @@ public class CadastroController {
             validator.add(new ValidationMessage("O campo porta está incorreto ou vazio", "Erro"));
         } else if (servidores.getSO().isEmpty()) {
             validator.add(new ValidationMessage("O campo SO deve ser informado", "Erro"));
+        } else if (servidores.getLogCurrent().isEmpty()) {
+        	validator.add(new ValidationMessage("O campo Log Current deve ser informado", "Erro"));
         } else if (servidores.getLogDir().isEmpty()) {
             servidores.setLogDir(null);
         }

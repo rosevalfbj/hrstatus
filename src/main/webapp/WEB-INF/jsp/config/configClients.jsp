@@ -24,7 +24,7 @@
 								<th>SO</th>
 								<th>Usuario</th>
 								<th>Diretŕio de Logs</th>
-								<th>Log Middleware</th>
+								<th>Log Current</th>
 								<th>Comando NTP</th>
 								<th>Verificação Ativa</th>
 								<th>Ações&nbsp;<a href="<c:url value="/newServer"/>"
@@ -40,7 +40,7 @@
 									<td>${server.SO}</td>
 									<td>${server.user}</td>
 									<td>${server.logDir}</td>
-									<td>${server.logMiddleware}</td>
+									<td>${server.logCurrent}</td>
 									<td>${server.suCommand}</td>
 									<td>${server.verify}</td>
 									<td><a

@@ -67,8 +67,8 @@
 								<td><input type="text" name="servidores.suCommand"></td>
 							</tr>
 							<tr>
-								<td align="right"><span title="Arquivo de log corrente do Middleware">Log File Middleware:</span></td>
-								<td><input type="text" name="servidores.logMiddleware"></td>
+								<td align="right"><span title="Arquivo de log corrente do Middleware">Log File Current:</span></td>
+								<td><input type="text" name="servidores.logCurrent"></td>
 							</tr>
 							<tr>
 								<td align=right><span title="Porta para conexão Remota, SSH: 22, Telnet: 23">Porta (SSH/TELNET):</span></td>

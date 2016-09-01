@@ -91,8 +91,8 @@ public class Servidores {
     @Column(name = "logDir")
     private String logDir;
     
-    @Column(name = "logMiddlware")
-    private String logMiddleware;
+    @Column(name = "logCurrent")
+    private String logCurrent;
 
     @Column(name = "suCommand")
     private String suCommand;
@@ -231,12 +231,12 @@ public class Servidores {
         this.logDir = logDir;
     }
 
-    public String getLogMiddleware() {
-        return logMiddleware;
+    public String getLogCurrent() {
+        return logCurrent;
     }
 
-    public void setLogMiddleware(String logDir) {
-        this.logMiddleware = logMiddleware;
+    public void setLogCurrent(String logCurrent) {
+        this.logCurrent = logCurrent;
     }
     
     public String getSuCommand() {
