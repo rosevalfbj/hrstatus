@@ -194,6 +194,26 @@
 								<div class="span2">
 									<div class="btn-group">
 										<a class="btn btn-primary dropdown-toggle"
+											data-toggle="dropdown" href="#"> Iniciar Verificação Middleware <span
+											class="caret"></span>
+										</a>
+										<ul class="dropdown-menu">
+											<li><a
+												href="<c:url value='/home/startVerificationMiddleware/full' />">
+													Verificação Completa </a></li>
+
+											<!--  <li><a
+												href="<c:url value='/home/startVerificationMiddleware/notFull' />">
+													Verificação Não Completa </a></li>
+											-->
+										</ul>
+									</div>
+								</div>
+
+
+								<div class="span2">
+									<div class="btn-group">
+										<a class="btn btn-primary dropdown-toggle"
 											data-toggle="dropdown" href="#"> Servidores Não OK <span
 											class="caret"></span>
 										</a>

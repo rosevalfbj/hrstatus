@@ -84,4 +84,44 @@ public class FullVerification extends VerificationHelper {
         // Release the resource when the verification ends
         resource.releaseLock("verificationFull");
     }
+    
+    @SuppressWarnings("static-access")
+    @Get("/home/startVerificationMiddleware/full")
+    public void startFullVerificationMiddleware() throws InterruptedException, JSchException {
+
+        // Inserting HTML title in the result
+        result.include("title", "Hr Status Home");
+
+        log.info("[ " + userInfo.getLoggedUsername() + " ] URI called: /home/startVerificationMiddleware/full");
+
+        log.info("[ " + userInfo.getLoggedUsername() + " ] Initializing a full verification.");
+
+        // Verifica se já tem alguma verificação ocorrendo...
+        if (!resource.islocked("verificationFull")) {
+            log.info("[ " + userInfo.getLoggedUsername() + " ] The resource verificationFull is not locked, locking and continuing.");
+
+            final List<Servidores> serverList = this.serversDAO.listServersVerActive();
+            if (serverList.size() <= 0) {
+                log.info("[ " + userInfo.getLoggedUsername() + " ] No server found or no servers with active check.");
+                result.include("info", "Nenhum servidor encontrado ou não há servidores com verficação ativa").forwardTo(HomeController.class).home("");
+
+            } else {
+                // locar recurso.
+                resource.lockRecurso("verificationFull");
+
+                verification.serverVerificationMiddleware(serverList);
+
+                final List<Servidores> checkedServers = this.serversDAO.listServersVerActive();
+                result.include("server", checkedServers).forwardTo(HomeController.class).home("");
+                result.include("class", "activeServer");
+
+            }
+        } else {
+            result.include("class", "activeServer");
+            result.include("info", "O recurso verificationFull está locado, aguarde o término da mesma").forwardTo(HomeController.class).home("");
+        }
+        // Release the resource when the verification ends
+        resource.releaseLock("verificationFull");
+    }
+    
 }

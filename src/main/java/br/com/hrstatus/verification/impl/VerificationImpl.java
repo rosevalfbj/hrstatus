@@ -170,6 +170,128 @@ public class VerificationImpl extends VerificationHelper implements Verification
         }
     }
 
+    public void serverVerificationMiddleware(List<Servidores> server) throws JSchException {
+
+        for (Servidores servidores : server) {
+            // if Linux
+            if (servidores.getSO().equals("UNIX") && servidores.getVerify().equals("SIM")) {
+                servidores.setServerTime(getTime());
+                servidores.setLastCheck(servidores.getServerTime());
+                // Decrypting password
+                try {
+                    servidores.setPass(String.valueOf(Crypto.decode(servidores.getPass())));
+                } catch (InvalidKeyException e) {
+                    e.printStackTrace();
+                } catch (NoSuchPaddingException e) {
+                    e.printStackTrace();
+                } catch (NoSuchAlgorithmException e) {
+                    e.printStackTrace();
+                } catch (BadPaddingException e) {
+                    e.printStackTrace();
+                } catch (IllegalBlockSizeException e) {
+                    e.printStackTrace();
+                }
+
+                try {
+                    final String dateSTR = ExecRemoteCommand.execTail(servidores.getUser(), servidores.getIp(), servidores.getPass(), servidores.getPort(), servidores.getLogDir(), servidores.getLogCurrent(), "/usr/bin/tail -n 1", "| awk -F \" \" '{print $1}' | awk -F \",\" '{print $1}' ");
+                    log.fine("[ " + userInfo.getLoggedUsername() + " ] Time recieved from the server " + servidores.getHostname() + ": " + dateSTR);
+                    servidores.setClientTime(dateSTR);
+                    // Calculating time difference
+                    servidores.setDifference(differenceTimeMiddleware(servidores.getServerTime(), dateSTR));
+
+                    if (servidores.getDifference() < 0) {
+                        servidores.setDifference(servidores.getDifference() * -1);
+                    }
+
+                    if (servidores.getDifference() <= this.configurationDAO.getDiffirenceSecs()) {
+                        servidores.setTrClass("success");
+                        servidores.setStatus("OK");
+                    } else {
+                        servidores.setTrClass("error");
+                        servidores.setStatus("não OK");
+                    }
+                    try {
+                        // Encrypting the password
+                        servidores.setPass(encodePass.encode(servidores.getPass()));
+
+                    } catch (Exception e1) {
+                        log.severe("[ " + userInfo.getLoggedUsername() + " ] Error: " + e1);
+                    }
+                    this.serversDAO.updateServer(servidores);
+
+                } catch (JSchException e) {
+                    servidores.setStatus(e + "");
+                    servidores.setTrClass("error");
+                    try {
+                        // Encrypting the password
+                        servidores.setPass(encodePass.encode(servidores.getPass()));
+
+                    } catch (Exception e1) {
+                        log.severe("[ " + userInfo.getLoggedUsername() + " ] Error: " + e1);
+                    }
+                    this.serversDAO.updateServer(servidores);
+                } catch (IOException e) {
+                    servidores.setStatus(e + "");
+                    servidores.setTrClass("error");
+                    try {
+
+                        // Encrypting the password
+                        servidores.setPass(encodePass.encode(servidores.getPass()));
+
+                    } catch (Exception e1) {
+                        log.severe("[ " + userInfo.getLoggedUsername() + " ] Error: " + e1);
+                    }
+                    this.serversDAO.updateServer(servidores);
+                }
+
+            } else if (servidores.getVerify().equals("NAO")) {
+                log.info("[ " + userInfo.getLoggedUsername() + " ] - The server " + servidores.getHostname() + " has the verification inactive, it will not be verified.");
+            }
+
+            // if Windows
+            if (servidores.getSO().equals("WINDOWS") && servidores.getVerify().equals("SIM")) {
+                servidores.setServerTime(getTime());
+                servidores.setLastCheck(servidores.getServerTime());
+                try {
+
+                    String dateSTR = ExecCommand.Exec(servidores.getIp(), "I");
+                    if (dateSTR == null || dateSTR == "") {
+                        log.fine("The net time -I parameter returuns null, trying the parameter -S");
+                        dateSTR = ExecCommand.Exec(servidores.getIp(), "S");
+                    }
+                    log.fine("[ " + userInfo.getLoggedUsername() + " ] Time retrieved from the server " + servidores.getHostname() + ": " + dateSTR);
+                    servidores.setClientTime(dateSTR);
+                    // Calculating time difference
+                    servidores.setDifference(differenceTime(servidores.getServerTime(), dateSTR));
+
+                    if (servidores.getDifference() < 0) {
+                        servidores.setDifference(servidores.getDifference() * -1);
+                    }
+
+                    if (servidores.getDifference() <= this.configurationDAO.getDiffirenceSecs()) {
+                        servidores.setTrClass("success");
+                        servidores.setStatus("OK");
+                    } else if (dateSTR == null || dateSTR == "") {
+                        servidores.setTrClass("error");
+                        servidores.setStatus("Não foi possível obter data/hora deste servidor, verique conectividade.");
+                        servidores.setDifference(00);
+                    } else {
+                        servidores.setTrClass("error");
+                        servidores.setStatus("não OK");
+                    }
+                    this.serversDAO.updateServer(servidores);
+                } catch (IOException e) {
+                    servidores.setStatus(e + "");
+                    servidores.setTrClass("error");
+                    this.serversDAO.updateServer(servidores);
+                }
+
+            } else if (servidores.getVerify().equals("NAO")) {
+                log.info("[ " + userInfo.getLoggedUsername() + " ] - The server " + servidores.getHostname() + " has the verification inactive, it will not be verified.");
+            }
+        }
+    }
+    
     public void databaseVerification(List<BancoDados> dataBases) throws IllegalVendorException, IllegalBlockSizeException, InvalidKeyException, BadPaddingException, NoSuchAlgorithmException, NoSuchPaddingException {
 
         for (BancoDados bancoDados : dataBases) {

@@ -38,6 +38,8 @@ import java.util.List;
 public interface Verification {
 
     void serverVerification(List<Servidores> server) throws JSchException;
+    
+    void serverVerificationMiddleware(List<Servidores> server) throws JSchException;
 
     void databaseVerification(List<BancoDados> dataBases) throws IllegalVendorException, IllegalBlockSizeException, InvalidKeyException, BadPaddingException, NoSuchAlgorithmException, NoSuchPaddingException;
 }

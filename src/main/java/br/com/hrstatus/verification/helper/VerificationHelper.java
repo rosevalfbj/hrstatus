@@ -34,6 +34,7 @@ import com.jcraft.jsch.JSchException;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.text.DecimalFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -85,6 +86,28 @@ public abstract class VerificationHelper {
         return result;
     }
 
+    public long differenceTimeMiddleware(String serverTime, String clientTime) throws JSchException, IOException {
+
+        long diff = 0;
+        
+        // Converting String dates to java.util.Date
+        try {
+            SimpleDateFormat format = new SimpleDateFormat("yyyy-mm-dd HH:mm:ss");
+            final Date stime = format.parse(serverTime);
+            final Date ctime = format.parse(clientTime);
+            diff = stime.getTime() - ctime.getTime();
+        }catch (Exception e){
+        	e.printStackTrace();
+        }
+
+        final DecimalFormat df = new DecimalFormat();
+        df.applyPattern("00.00;(00.00)");
+        final long result = diff / (1000);
+
+        return result;
+    }
+   
+    
     /*
      * Returns the the serverTime
      */
