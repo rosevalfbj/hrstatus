@@ -94,7 +94,7 @@ public class ExecRemoteCommand extends CommandExecutionHelper {
     public static String execTail(String user, String host, String password, int port, String logDir, String logCurrent, String command, String filter) throws JSchException, IOException {
 
         String s = "";
-        command = command + logDir +"/" + logCurrent + filter;
+        command = command + " " + logDir +"/" + logCurrent + filter;
         log.fine("Executing command " + command + " against " + host);
         if (!isLocalhost(host)) {
             // Disabling host key check

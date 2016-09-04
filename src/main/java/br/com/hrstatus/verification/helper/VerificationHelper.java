@@ -92,7 +92,7 @@ public abstract class VerificationHelper {
         
         // Converting String dates to java.util.Date
         try {
-            SimpleDateFormat format = new SimpleDateFormat("yyyy-mm-dd HH:mm:ss");
+            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
             final Date stime = format.parse(serverTime);
             final Date ctime = format.parse(clientTime);
             diff = stime.getTime() - ctime.getTime();
@@ -117,4 +117,21 @@ public abstract class VerificationHelper {
         serverTime = parse.parser(serverTime).toString();
         return serverTime;
     }
+    
+    public String getTimeMiddleware() {
+        final Calendar cal = Calendar.getInstance();
+        Date stime = cal.getTime();
+        String serverTime = new String();
+        
+        try{
+        	SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        	serverTime = formatter.format(stime);
+        	
+        }catch (Exception e){
+        	e.printStackTrace();
+        }
+ 
+        return serverTime;
+    }
+    
 }
