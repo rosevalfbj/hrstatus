@@ -87,62 +87,7 @@ public class ExecRemoteCommand extends CommandExecutionHelper {
 
         } else {
             log.fine("Host received is localhost, performing local command execution...");
-            return shell.executeCommand("/bin/date");
-        }
-    }
-    
-    public static String execTail(String user, String host, String password, int port, String logDir, String logCurrent, String command, String filter) throws JSchException, IOException {
-
-        String s = "";
-        command = command + " " + logDir +"/" + logCurrent + filter;
-        log.fine("Executing command " + command + " against " + host);
-        if (!isLocalhost(host)) {
-            // Disabling host key check
-            java.util.Properties config = new java.util.Properties();
-            config.put("StrictHostKeyChecking", "no");
-
-            // Creating the server session and connecting
-            JSch jsch = new JSch();
-            Session session = jsch.getSession(user, host, port);
-            session.setConfig(config);
-            session.setPassword(password);
-            session.connect(10000);
-
-            // Executing the command
-            Channel channel = session.openChannel("exec");
-            ((ChannelExec) channel).setCommand(command);
-            ((ChannelExec) channel).setErrStream(System.err);
-            InputStream in = channel.getInputStream();
-
-            channel.connect();
-
-            byte[] tmp = new byte[1024];
-            boolean test = true;
-            while (test == true) {
-
-                while (in.available() > 0) {
-
-                    int i = in.read(tmp, 0, 1024);
-                    if (i < 0) {
-                        break;
-                    }
-                    s += (new String(tmp, 0, i));
-                }
-
-                if (channel.isClosed()) {
-                    break;
-                }
-
-            }
-
-            channel.disconnect();
-            session.disconnect();
-            return s.replaceAll("\n", "");
-
-        } else {
-            log.fine("Host received is localhost, performing local command execution...");
             return shell.executeCommand(command);
         }
-    }
-    
+    }    
 }

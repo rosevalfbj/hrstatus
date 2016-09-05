@@ -86,7 +86,7 @@ public abstract class VerificationHelper {
         return result;
     }
 
-    public long differenceTimeMiddleware(String serverTime, String clientTime) throws JSchException, IOException {
+    public long differenceTimeJava(String serverTime, String clientTime) throws JSchException, IOException {
 
         long diff = 0;
         
@@ -118,7 +118,7 @@ public abstract class VerificationHelper {
         return serverTime;
     }
     
-    public String getTimeMiddleware() {
+    public String getTimeJava() {
         final Calendar cal = Calendar.getInstance();
         Date stime = cal.getTime();
         String serverTime = new String();

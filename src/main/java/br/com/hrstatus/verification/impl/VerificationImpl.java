@@ -175,7 +175,7 @@ public class VerificationImpl extends VerificationHelper implements Verification
         for (Servidores servidores : server) {
             // if Linux
             if (servidores.getSO().equals("UNIX") && servidores.getVerify().equals("SIM")) {
-                servidores.setServerTime(getTimeMiddleware());
+                servidores.setServerTime(getTimeJava());
                 servidores.setLastCheck(servidores.getServerTime());
                 // Decrypting password
                 try {
@@ -193,11 +193,11 @@ public class VerificationImpl extends VerificationHelper implements Verification
                 }
 
                 try {
-                    final String dateSTR = ExecRemoteCommand.execTail(servidores.getUser(), servidores.getIp(), servidores.getPass(), servidores.getPort(), servidores.getLogDir(), servidores.getLogCurrent(), "/usr/bin/tail -n 1", "| awk -F \" \" '{print $1 \" \" $2}' | awk -F \",\" '{print $1}' ");
+                    final String dateSTR = ExecRemoteCommand.exec(servidores.getUser(), servidores.getIp(), servidores.getPass(), servidores.getPort(),"/usr/bin/tail -n 1 " + servidores.getLogDir()+ "/" + servidores.getLogCurrent() + " | awk -F \" \" '{print $1 \" \" $2}' | awk -F \",\" '{print $1}' ");
                     log.fine("[ " + userInfo.getLoggedUsername() + " ] Time recieved from the server " + servidores.getHostname() + ": " + dateSTR);
                     servidores.setClientTime(dateSTR);
                     // Calculating time difference
-                    servidores.setDifference(differenceTimeMiddleware(servidores.getServerTime(), dateSTR));
+                    servidores.setDifference(differenceTimeJava(servidores.getServerTime(), dateSTR));
 
                     if (servidores.getDifference() < 0) {
                         servidores.setDifference(servidores.getDifference() * -1);
