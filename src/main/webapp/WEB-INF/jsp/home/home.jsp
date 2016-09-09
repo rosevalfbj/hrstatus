@@ -280,6 +280,21 @@
 								</div>
 							</c:if>
 						</div>
+						
+						<div
+							<c:choose> 
+								<c:when test="${class == 'activeMiddleware'}">
+									class="active item"
+								 </c:when>
+								 <c:otherwise>  
+									class="item"
+								</c:otherwise> 
+							 </c:choose>
+							align="center">
+							<b>Middleware</b><br>
+							<br>
+						</div>
+						
 						<!-- Caso seja necessário inserir novo ítem ao carrossel, inserir aqui.  -->
 					</div>
 				</div>
