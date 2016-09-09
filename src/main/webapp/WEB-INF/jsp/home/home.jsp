@@ -300,34 +300,22 @@
 										<button input="" type="submit" value="Servidores OK"
 											class="btn btn-primary">Middlewares OK</button>
 									</form>
-
 								</div>
-
+								
 								<div class="span2">
-									<div class="btn-group">
-										<a class="btn btn-primary dropdown-toggle"
-											data-toggle="dropdown" href="#"> Iniciar Verificação <span
-											class="caret"></span>
-										</a>
-										<ul class="dropdown-menu">
-											<li><a
-												href="<c:url value='/home/startVerificationMiddleware/full' />">
-													Verificação Completa</a></li>
-										</ul>
-									</div>
+									<form method="GET"
+										action="<c:url value='/home/startVerificationMiddleware/full'/>">
+										<button input="" type="submit" value="Iniciar Verificação"
+											class="btn btn-primary">Iniciar Verificação</button>
+									</form>
 								</div>
-
-							<div class="span2">
-									<div class="btn-group">
-										<a class="btn btn-primary dropdown-toggle"
-											data-toggle="dropdown" href="#"> Middlewares Não OK <span
-											class="caret"></span>
-										</a>
-										<ul class="dropdown-menu">
-											<li><a href="<c:url value='/home/showByStatusMiddleware/NOK' />">
-													Listar Middlewares Desatualizados </a></li>
-										</ul>
-									</div>
+					
+								<div class="span2">
+									<form method="GET"
+										action="<c:url value='/home/showByStatusMiddleware/NOK'/>">
+										<button input="" type="submit" value="Servidores NOK"
+											class="btn btn-primary">Middlewares Não OK</button>
+									</form>
 								</div>
 
 								<div class="span3"></div>
