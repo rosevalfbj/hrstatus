@@ -120,4 +120,29 @@ public class HomeController {
             validator.onErrorUsePageOf(HomeController.class).home("");
         }
     }
+    
+    @Get("/home/showByStatusMiddleware/{status}")
+    public void showByStatusMiddleware(String status) {
+
+        // Inserting HTML title in the result
+        result.include("title", "Hr Status Home");
+
+        log.info("[ " + userInfo.getLoggedUsername() + " ] URI Called: /home/showByStatusMiddleware/" + status);
+
+        if ("OK".equals(status)) {
+            final List<Servidores> list = this.iteracoesDAO.getServersOK();
+            result.include("class", "activeMiddleware");
+            result.include("middleware", list).forwardTo(HomeController.class).home("");
+            result.include("class", "activeServerMiddleware");
+
+        } else if (!"OK".equals(status)) {
+            final List<Servidores> list = this.iteracoesDAO.getServersNOK();
+            result.include("class", "activeMiddleware");
+            result.include("middleware", list).forwardTo(HomeController.class).home("");
+
+        } else {
+            validator.onErrorUsePageOf(HomeController.class).home("");
+        }
+    }
+    
 }

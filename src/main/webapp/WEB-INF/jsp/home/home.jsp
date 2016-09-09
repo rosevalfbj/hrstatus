@@ -281,6 +281,7 @@
 							</c:if>
 						</div>
 						
+						<!-- Inicio da Aba Middleware -->
 						<div
 							<c:choose> 
 								<c:when test="${class == 'activeMiddleware'}">
@@ -293,7 +294,93 @@
 							align="center">
 							<b>Middleware</b><br>
 							<br>
-						</div>
+								<div class="row">
+
+								<div class="span3"></div>
+
+								<div class="span2">
+									<form method="GET"
+										action="<c:url value='/home/showByStatusMiddleware/OK'/>">
+										<button input="" type="submit" value="Servidores OK"
+											class="btn btn-primary">Middlewares OK</button>
+									</form>
+
+								</div>
+
+								<div class="span2">
+									<div class="btn-group">
+										<a class="btn btn-primary dropdown-toggle"
+											data-toggle="dropdown" href="#"> Iniciar Verificação <span
+											class="caret"></span>
+										</a>
+										<ul class="dropdown-menu">
+											<li><a
+												href="<c:url value='/home/startVerificationMiddleware/full' />">
+													Verificação Completa</a></li>
+										</ul>
+									</div>
+								</div>
+
+							<div class="span2">
+									<div class="btn-group">
+										<a class="btn btn-primary dropdown-toggle"
+											data-toggle="dropdown" href="#"> Middlewares Não OK <span
+											class="caret"></span>
+										</a>
+										<ul class="dropdown-menu">
+											<li><a href="<c:url value='/home/showByStatusMiddleware/NOK' />">
+													Listar Middlewares Desatualizados </a></li>
+										</ul>
+									</div>
+								</div>
+
+								<div class="span3"></div>
+							</div>
+							<table class="table table-condensed" id="resultTable">
+								<thead>
+									<tr>
+										<th>ID</th>
+										<th>Servidor</th>
+										<th>IP</th>
+										<th>SO</th>
+										<th>Client Time</th>
+										<th>Server Time</th>
+										<th>Diference (s)</th>
+										<th>Status</th>
+									</tr>
+								</thead>
+								<tbody>
+									<c:forEach var="middleware" items="${middleware}">
+										<tr class="${middleware.trClass}">
+											<td>${middleware.id}</td>
+											<c:if test="${middleware.trClass == 'success'}">
+												<td>${middleware.hostname}</td>
+											</c:if>
+											<c:if test="${middleware.trClass == 'error'}">
+												<td><a
+													href="<c:url value='/singleServerToVerify/${middleware.id}' />">${middleware.hostname}</a></td>
+											</c:if>
+											<td>${middleware.ip}</td>
+											<td>${middleware.SO}</td>
+											<td>${middleware.clientTime}</td>
+											<td>${middleware.serverTime}</td>
+											<td>${middleware.difference}</td>
+											<td>${middleware.status}</td>
+											<c:if test="${middleware.trClass == 'error'}">
+												<td><div class="find_1">
+														<input type="checkbox" value="${middleware.id}" />
+													</div></td>
+												<td><a
+													href="<c:url value='/findForUpdateServer/${middleware.id}' />"
+													title="Editar Middleware"><i class="icon-edit"> </i></a></td>
+											</c:if>
+										</tr>
+									</c:forEach>
+								</tbody>
+							</table>
+				
+							
+						</div><!-- Fim da Aba Middleware -->
 						
 						<!-- Caso seja necessário inserir novo ítem ao carrossel, inserir aqui.  -->
 					</div>
