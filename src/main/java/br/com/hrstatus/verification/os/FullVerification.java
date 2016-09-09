@@ -112,12 +112,12 @@ public class FullVerification extends VerificationHelper {
                 verification.serverVerificationMiddleware(serverList);
 
                 final List<Servidores> checkedServers = this.serversDAO.listServersVerActive();
-                result.include("server", checkedServers).forwardTo(HomeController.class).home("");
-                result.include("class", "activeServer");
+                result.include("middleware", checkedServers).forwardTo(HomeController.class).home("");
+                result.include("class", "activeMiddleware");
 
             }
         } else {
-            result.include("class", "activeServer");
+            result.include("class", "activeMiddleware");
             result.include("info", "O recurso verificationFull está locado, aguarde o término da mesma").forwardTo(HomeController.class).home("");
         }
         // Release the resource when the verification ends

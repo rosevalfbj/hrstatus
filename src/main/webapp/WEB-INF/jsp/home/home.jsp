@@ -184,10 +184,6 @@
 													Verificação Completa </a></li>
 													
 											<li><a
-												href="<c:url value='/home/startVerificationMiddleware/full' />">
-													Verificação Completa - Middleware</a></li>
-
-											<li><a
 												href="<c:url value='/home/startVerification/notFull' />">
 													Verificação Não Completa </a></li>
 
@@ -378,8 +374,6 @@
 									</c:forEach>
 								</tbody>
 							</table>
-				
-							
 						</div><!-- Fim da Aba Middleware -->
 						
 						<!-- Caso seja necessário inserir novo ítem ao carrossel, inserir aqui.  -->
