@@ -50,7 +50,7 @@
 									
 								
 							<tr>
-								<td align=right>Servder ID:</td>
+								<td align=right>Server ID:</td>
 								<td><input name="server.id" value="${server.id}"
 									readonly="readonly" /></td>
 							</tr>
@@ -78,6 +78,11 @@
 								<td align=right>Diretório de logs:</td>
 								<td><input type="text" name="server.logDir"
 									value="${server.logDir}" /></td>
+							</tr>
+							<tr>
+								<td align=right>Log File Current:</td>
+								<td><input type="text" name="server.logCurrent"
+									value="${server.logCurrent}" /></td>
 							</tr>
 							<tr>
 								<td align=right>Comando NTP:</td>

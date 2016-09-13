@@ -304,7 +304,7 @@
 								
 								<div class="span2">
 									<form method="GET"
-										action="<c:url value='/home/startVerificationMiddleware/full'/>">
+										action="<c:url value='/home/startVerificationMiddleware/fullVerification'/>">
 										<button input="" type="submit" value="Iniciar Verificação"
 											class="btn btn-primary">Iniciar Verificação</button>
 									</form>
