@@ -133,7 +133,7 @@ public class HomeController {
             final List<Servidores> list = this.iteracoesDAO.getServersOK();
             result.include("class", "activeMiddleware");
             result.include("middleware", list).forwardTo(HomeController.class).home("");
-            result.include("class", "activeServerMiddleware");
+            result.include("class", "activeMiddleware");
 
         } else if (!"OK".equals(status)) {
             final List<Servidores> list = this.iteracoesDAO.getServersNOK();
