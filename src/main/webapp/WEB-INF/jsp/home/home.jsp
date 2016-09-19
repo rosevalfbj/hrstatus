@@ -296,23 +296,34 @@
 
 								<div class="span2">
 									<form method="GET"
-										action="<c:url value='/home/showByStatusMiddleware/OK'/>">
+										action="<c:url value='/middleware/showByStatusMiddleware/OK'/>">
 										<button input="" type="submit" value="Servidores OK"
 											class="btn btn-primary">Middlewares OK</button>
 									</form>
 								</div>
 								
 								<div class="span2">
-									<form method="GET"
-										action="<c:url value='/home/startVerificationMiddleware/full'/>">
-										<button input="" type="submit" value="Iniciar Verificação"
-											class="btn btn-primary">Iniciar Verificação</button>
-									</form>
+									<div class="btn-group">
+										<a class="btn btn-primary dropdown-toggle"
+											data-toggle="dropdown" href="#"> Iniciar Verificação <span
+											class="caret"></span>
+										</a>
+										<ul class="dropdown-menu">
+											<li><a
+												href="<c:url value='/middleware/startVerificationMiddleware/full' />">
+													Verificação Completa </a></li>
+													
+											<li><a
+												href="<c:url value='/middleware/startVerificationMiddleware/notFull' />">
+													Verificação Não Completa </a></li>
+
+										</ul>
+									</div>
 								</div>
 					
 								<div class="span2">
 									<form method="GET"
-										action="<c:url value='/home/showByStatusMiddleware/NOK'/>">
+										action="<c:url value='/middleware/showByStatusMiddleware/NOK'/>">
 										<button input="" type="submit" value="Servidores NOK"
 											class="btn btn-primary">Middlewares Não OK</button>
 									</form>

@@ -51,15 +51,15 @@ public class NotFullVerification extends VerificationHelper {
     public void startNotFullVerification() throws InterruptedException, JSchException {
 
         // Inserting HTML title in the result
-        result.include("title", "Hr Status Home");
+        //result.include("title", "Hr Status Home");
 
         // Verifica se já tem alguma verificação ocorrendo...
-        if (!resource.islocked("notOkverification")) {
+        if (!resource.islocked("notOkverificationMiddleware")) {
 
             log.info("[ " + userInfo.getLoggedUsername() + " ] The resource notOkverification is not locked, locking and continuing.");
 
             // Inserting HTML title in the result
-            result.include("title", "Hr Status Home");
+            //result.include("title", "Hr Status Home");
             final List<Servidores> serverList = this.serversDAO.getServersNOKVerActive();
 
             if (serverList.size() <= 0) {
@@ -82,5 +82,45 @@ public class NotFullVerification extends VerificationHelper {
         }
         // Release the resource when the verification ends
         resource.releaseLock("notOkverification");
+    }
+
+    @SuppressWarnings("static-access")
+    @Get("/middleware/startVerificationMiddleware/notFull")
+    public void startNotFullVerificationMiddleware() throws InterruptedException, JSchException {
+
+        // Inserting HTML title in the result
+        //result.include("title", "Hr Status Home");
+
+        log.info("[ " + userInfo.getLoggedUsername() + " ] URI called: /middleware/startVerificationMiddleware/notfull");
+
+        log.info("[ " + userInfo.getLoggedUsername() + " ] Initializing a not full verification.");
+
+        // Verifica se já tem alguma verificação ocorrendo...
+        if (!resource.islocked("notOkverificationMiddleware")) {
+
+            log.info("[ " + userInfo.getLoggedUsername() + " ] The resource notOkverificationMiddleware is not locked, locking and continuing.");
+
+            final List<Servidores> middlewareList = this.serversDAO.getServersNOKVerActive();
+
+            if (middlewareList.size() <= 0) {
+                log.info("[ " + userInfo.getLoggedUsername() + " ] No middleware found or no midlewares with active check.");
+                result.include("info", "Nenhum middleware encontrado ou não há servidores com verficação ativa").forwardTo(HomeController.class).home("");
+
+            } else {
+                resource.lockRecurso("notOkverificationMiddleware");
+
+                verification.serverVerificationMiddleware(middlewareList);
+
+                final List<Servidores> resultMiddlewares = this.serversDAO.getServersNOKVerActive();
+                result.include("class", "activeMiddleware");
+                result.include("middleware", resultMiddlewares).forwardTo(HomeController.class).home("");
+
+            }
+        } else {
+            result.include("class", "activeMiddleware");
+            result.include("info", "O recurso notOkverificationMiddleware está locado, aguarde o término da mesma").forwardTo(HomeController.class).home("");
+        }
+        // Release the resource when the verification ends
+        resource.releaseLock("notOkverificationMiddleware");
     }
 }

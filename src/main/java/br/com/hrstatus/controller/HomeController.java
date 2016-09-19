@@ -121,13 +121,13 @@ public class HomeController {
         }
     }
     
-    @Get("/home/showByStatusMiddleware/{status}")
+    @Get("/middleware/showByStatusMiddleware/{status}")
     public void showByStatusMiddleware(String status) {
 
         // Inserting HTML title in the result
         result.include("title", "Hr Status Home");
 
-        log.info("[ " + userInfo.getLoggedUsername() + " ] URI Called: /home/showByStatusMiddleware/" + status);
+        log.info("[ " + userInfo.getLoggedUsername() + " ] URI Called: /middleware/showByStatusMiddleware/" + status);
 
         if ("OK".equals(status)) {
             final List<Servidores> list = this.iteracoesDAO.getServersOK();

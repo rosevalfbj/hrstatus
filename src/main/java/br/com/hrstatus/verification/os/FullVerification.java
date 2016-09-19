@@ -84,35 +84,38 @@ public class FullVerification extends VerificationHelper {
         // Release the resource when the verification ends
         resource.releaseLock("verificationFull");
     }
+ 
+    
     
     @SuppressWarnings("static-access")
-    @Get("/home/startVerificationMiddleware/full")
+    @Get("/middleware/startVerificationMiddleware/full")
     public void startFullVerificationMiddleware() throws InterruptedException, JSchException {
 
         // Inserting HTML title in the result
-        result.include("title", "Hr Status Home");
+        //result.include("title", "Hr Status Home");
 
-        log.info("[ " + userInfo.getLoggedUsername() + " ] URI called: /home/startVerificationMiddleware/full");
+        log.info("[ " + userInfo.getLoggedUsername() + " ] URI called: /middleware/startVerificationMiddleware/full");
 
         log.info("[ " + userInfo.getLoggedUsername() + " ] Initializing a full verification.");
 
         // Verifica se já tem alguma verificação ocorrendo...
-        if (!resource.islocked("verificationFull")) {
-            log.info("[ " + userInfo.getLoggedUsername() + " ] The resource verificationFull is not locked, locking and continuing.");
-
-            final List<Servidores> serverList = this.serversDAO.listServersVerActive();
-            if (serverList.size() <= 0) {
-                log.info("[ " + userInfo.getLoggedUsername() + " ] No server found or no servers with active check.");
-                result.include("info", "Nenhum servidor encontrado ou não há servidores com verficação ativa").forwardTo(HomeController.class).home("");
+        if (!resource.islocked("verificationFullMiddleware")) {
+            log.info("[ " + userInfo.getLoggedUsername() + " ] The resource verificationFullMiddleware is not locked, locking and continuing.");
+            
+            //result.include("title", "Hr Status Home");
+            final List<Servidores> middlewareList = this.serversDAO.listServersVerActive();
+            if (middlewareList.size() <= 0) {
+                log.info("[ " + userInfo.getLoggedUsername() + " ] No middleware found or no middlewares with active check.");
+                result.include("info", "Nenhum middleware encontrado ou não há middlewares com verficação ativa").forwardTo(HomeController.class).home("");
 
             } else {
                 // locar recurso.
-                resource.lockRecurso("verificationFull");
+                resource.lockRecurso("verificationFullMiddleware");
 
-                verification.serverVerificationMiddleware(serverList);
+                verification.serverVerificationMiddleware(middlewareList);
 
-                final List<Servidores> checkedServers = this.serversDAO.listServersVerActive();
-                result.include("middleware", checkedServers).forwardTo(HomeController.class).home("");
+                final List<Servidores> checkedMiddlewares = this.serversDAO.listServersVerActive();
+                result.include("middleware", checkedMiddlewares).forwardTo(HomeController.class).home("");
                 result.include("class", "activeMiddleware");
 
             }
@@ -121,7 +124,7 @@ public class FullVerification extends VerificationHelper {
             result.include("info", "O recurso verificationFull está locado, aguarde o término da mesma").forwardTo(HomeController.class).home("");
         }
         // Release the resource when the verification ends
-        resource.releaseLock("verificationFull");
+        resource.releaseLock("verificationFullMiddleware");
     }
     
 }
