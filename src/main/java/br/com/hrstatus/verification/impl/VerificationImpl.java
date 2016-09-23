@@ -71,7 +71,7 @@ public class VerificationImpl extends VerificationHelper implements Verification
                 }
 
                 try {
-                	final String dateSTR = ExecRemoteCommand.exec(servidores.getUser(), servidores.getIp(), servidores.getPass(), servidores.getPort(),"/bin/cat " + servidores.getLogDir()+ "/" + servidores.getLogCurrent() + " | grep ^'[0-9]' | /usr/bin/tail -n 1 | awk -F \" \" '{print $1 \" \" $2}' | awk -F \",\" '{print $1}'");
+                	final String dateSTR = ExecRemoteCommand.exec(servidores.getUser(), servidores.getIp(), servidores.getPass(), servidores.getPort(),"/bin/date");
                     log.fine("[ " + userInfo.getLoggedUsername() + " ] Time recieved from the server " + servidores.getHostname() + ": " + dateSTR);
                     servidores.setClientTime(dateSTR);
                     // Calculating time difference
@@ -193,7 +193,7 @@ public class VerificationImpl extends VerificationHelper implements Verification
                 }
 
                 try {
-                    final String dateSTR = ExecRemoteCommand.exec(servidores.getUser(), servidores.getIp(), servidores.getPass(), servidores.getPort(),"/usr/bin/tail -n 1 " + servidores.getLogDir()+ "/" + servidores.getLogCurrent() + " | awk -F \" \" '{print $1 \" \" $2}' | awk -F \",\" '{print $1}' ");
+                    final String dateSTR = ExecRemoteCommand.exec(servidores.getUser(), servidores.getIp(), servidores.getPass(), servidores.getPort(),"/bin/cat " + servidores.getLogDir()+ "/" + servidores.getLogCurrent() + " | grep ^'[0-9]' | /usr/bin/tail -n 1 | awk -F \" \" '{print $1 \" \" $2}' | awk -F \",\" '{print $1}'");
                     log.fine("[ " + userInfo.getLoggedUsername() + " ] Time recieved from the server " + servidores.getHostname() + ": " + dateSTR);
                     servidores.setClientTime(dateSTR);
                     // Calculating time difference
